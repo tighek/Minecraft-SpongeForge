@@ -1,6 +1,6 @@
 # SpongeVanilla
 
-SpongeForge container
+SpongeForge container 
 
 Sample scripts for creating the containers are in the Github repo:
 
