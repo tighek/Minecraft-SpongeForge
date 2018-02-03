@@ -1,0 +1,8 @@
+#!/bin/sh
+
+docker run -d --name spongeforge \
+  --restart=always \
+  -p 25565:25565 \
+  -p 25565:25565/udp \
+  tighek/minecraft-spongeforge
+

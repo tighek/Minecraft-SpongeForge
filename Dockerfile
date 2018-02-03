@@ -1,34 +1,30 @@
 #
-# Dockerfile to build SpongeForge
+# Dockerfile to build SpongeVanilla
 #
 
 FROM java:8
 MAINTAINER Tighe Kuykendall, http://github.com/TigheK
 
-RUN mkdir /forge
+RUN mkdir /srv/minecraft
 
-ADD ./start_forge /start_forge
-RUN chmod 775 /start_forge
+ADD ./eula.txt /srv/
+RUN cp /srv/eula.txt /srv/minecraft/
 
-ENV MINECRAFT_PORT 25566
-ENV MINECRAFT_EULA true
-ENV MINECRAFT_MAXHEAP 1024M
+ADD ./start_sponge /srv/
+RUN chmod 775 /srv/start_sponge
+RUN cp /srv/start_sponge /srv/minecraft/
 
-ENV FORGE_VERSION 1.10.2-12.18.1.2026
-ENV FORGE_URL http://files.minecraftforge.net/maven/net/minecraftforge/forge/${FORGE_VERSION}/forge-${FORGE_VERSION}-installer.jar
+ADD https://repo.spongepowered.org/maven/org/spongepowered/spongeforge/1.12.2-2586-7.1.0-BETA-2875/spongeforge-1.12.2-2586-7.1.0-BETA-2875.jar /srv/spongeforge.jar
+RUN ln -s /srv/spongevanilla.jar /srv/minecraft/spongevanilla.jar
 
-ENV SPONGE_VERSION 1.10.2-2026-5.0.0-BETA-1632
-ENV SPONGE_URL http://files.minecraftforge.net/maven/org/spongepowered/spongeforge/${SPONGE_VERSION}/spongeforge-${SPONGE_VERSION}.jar
+RUN touch /srv/spongeforge_1.12.2-2586-7.1.0-BETA-2875
 
-ENV EXECUTABLE_JAR forge-${FORGE_VERSION}-universal.jar
+WORKDIR /srv/minecraft
+VOLUME ["/srv/minecraft"]
 
-RUN DEBIAN_FRONTEND=noninteractive
-
-WORKDIR /forge
-VOLUME ["/forge"]
-
-EXPOSE ${MINECRAFT_PORT}
-EXPOSE ${MINECRAFT_PORT}/udp
+EXPOSE 25565
+EXPOSE 25565/udp
 
 CMD [""]
-ENTRYPOINT /start_forge
+
+ENTRYPOINT /srv/start_sponge 
