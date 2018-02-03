@@ -1,5 +1,5 @@
 #
-# Dockerfile to build SpongeVanilla
+# Dockerfile to build SpongeForge
 #
 
 FROM java:8
